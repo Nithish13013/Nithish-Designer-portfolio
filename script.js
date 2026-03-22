@@ -1,50 +1,14 @@
 gsap.registerPlugin(ScrollTrigger);
 
 /* ═══════════════════════════════════════
-   SECTION LABEL SWAP
+   NAVBAR — switch to dark glass on scroll
 ════════════════════════════════════════ */
-const fixedLabel = document.createElement('div');
-fixedLabel.className = 'section-label';
-fixedLabel.style.cssText = 'position:fixed;top:28px;left:28px;z-index:200;opacity:0;transition:opacity 0.4s,transform 0.4s;transform:translateY(4px);';
-document.body.appendChild(fixedLabel);
-
-const sections = [
-  { el: document.querySelector('.intro'),            text: '// Intro' },
-  { el: document.querySelector('.services'),         text: '// Services' },
-  { el: document.querySelector('.tools'),            text: '// Tools' },
-  { el: document.querySelector('.projects'),         text: '// Projects' },
-  { el: document.querySelector('.portfolio-section'),text: '// Graphic Design' },
-  { el: document.querySelector('.design-process'),   text: '// Process' },
-  { el: document.querySelector('.experience'),       text: '// Experience' },
-  { el: document.querySelector('.testimonials'),     text: '// Testimonials' },
-  { el: document.querySelector('.contact'),          text: '// Contact' },
-];
-
-sections.forEach(({ el, text }) => {
-  if (!el) return;
-  ScrollTrigger.create({
-    trigger: el,
-    start: 'top 40%',
-    end: 'bottom 40%',
-    onEnter: () => showLabel(text),
-    onEnterBack: () => showLabel(text),
-  });
-});
-
-function showLabel(text) {
-  gsap.to(fixedLabel, { opacity: 0, y: -6, duration: 0.18, onComplete: () => {
-    fixedLabel.textContent = text;
-    fixedLabel.style.color = '#ff6b35';
-    gsap.to(fixedLabel, { opacity: 1, y: 0, duration: 0.3 });
-  }});
-}
-
+const navbar = document.getElementById('navbar');
 ScrollTrigger.create({
   trigger: '.hero',
-  start: 'top top',
-  end: 'bottom 40%',
-  onEnter: () => gsap.to(fixedLabel, { opacity: 0, duration: 0.3 }),
-  onEnterBack: () => gsap.to(fixedLabel, { opacity: 0, duration: 0.3 }),
+  start: 'bottom top',
+  onEnter:     () => navbar.classList.add('scrolled'),
+  onLeaveBack: () => navbar.classList.remove('scrolled'),
 });
 
 /* ═══════════════════════════════════════
@@ -222,11 +186,6 @@ document.querySelectorAll('.dp-step').forEach((step, i) => {
 /* ═══════════════════════════════════════
    EXPERIENCE ANIMATION
 ════════════════════════════════════════ */
-gsap.from('.exp-title', {
-  y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
-  scrollTrigger: { trigger: '.experience', start: 'top 80%' }
-});
-
 gsap.from('.exp-year', {
   x: -30, opacity: 0, duration: 0.6,
   scrollTrigger: { trigger: '.exp-row', start: 'top 85%' }
@@ -307,37 +266,6 @@ setInterval(() => goToSlide((current + 1) % slides.length), 5000);
 gsap.from('.testimonial-wrap', {
   y: 40, opacity: 0, duration: 0.8, ease: 'power2.out',
   scrollTrigger: { trigger: '.testimonials', start: 'top 75%' }
-});
-
-/* ═══════════════════════════════════════
-   CLIENTS MARQUEE
-════════════════════════════════════════ */
-const clientsTrack = document.getElementById('clientsTrack');
-if (clientsTrack) {
-  clientsTrack.innerHTML += clientsTrack.innerHTML;
-  const totalW = clientsTrack.scrollWidth / 2;
-  gsap.to(clientsTrack, { x: -totalW, duration: 20, ease: 'none', repeat: -1 });
-}
-
-/* ═══════════════════════════════════════
-   CONTACT MARQUEE
-════════════════════════════════════════ */
-const contactTrack = document.getElementById('contactTrack');
-if (contactTrack) {
-  gsap.to(contactTrack, {
-    x: '-50%', ease: 'none',
-    scrollTrigger: { trigger: '.contact', start: 'top bottom', end: 'bottom top', scrub: 1 }
-  });
-}
-
-gsap.to('.contact-photo-overlay', {
-  y: -80, ease: 'none',
-  scrollTrigger: { trigger: '.contact', start: 'top bottom', end: 'bottom top', scrub: true }
-});
-
-gsap.from('.contact-details', {
-  y: 30, opacity: 0, duration: 0.7, ease: 'power2.out',
-  scrollTrigger: { trigger: '.contact-details', start: 'top 90%' }
 });
 
 /* ═══════════════════════════════════════
